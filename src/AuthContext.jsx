@@ -9,10 +9,22 @@ export function AuthProvider({ children }) {
   const [location, setLocation] = useState("GATE");
 
   // TODO: signup
+  async function signup(username) {
+    const response = await fetch(API + "/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username }),
+    });
+    const result = await response.json();
+    setToken(result.token);
+    setLocation("TABLET");
+  }
 
   // TODO: authenticate
 
-  const value = { location };
+  const value = { location, signup };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
